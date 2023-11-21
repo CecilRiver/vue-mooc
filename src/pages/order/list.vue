@@ -2,7 +2,7 @@
   <div class="list">
     <!-- 选项卡 -->
     <dl class="list-tab">
-      <dt>我的订单</dt>
+      <dt>我的任务</dt>
       <dd
         v-for="(item,index) in navList"
         :key="item.id"
@@ -22,12 +22,17 @@
       >
         <h2 class="order-title">
           <i class="iconfont">&#xe70b;</i>
-          订单编号：{{ item.code }}
-          <span class="order-time">{{ item.time }}</span>
-          <i class="iconfont delete" title="删除订单" @click="handleDeleteClick(item)">&#xe622;</i>
+          任务编号：
+          <!-- <router-link :to="{ path: '/taskDetails/' + item.submissionId }"></router-link> -->
+          {{ item.submissionId }}
+          任务状态：{{ navList[item.status+1].title}}
+          <br>
+          <router-link :to="{ path: '/taskDetails/' + item.submissionId }" style="color: red; font-size: 18px;">查看</router-link>
+          <!-- <span class="order-time">{{ item.time }}</span> -->
+          <!-- <i class="iconfont delete" title="删除订单" @click="handleDeleteClick(item)">&#xe622;</i> -->
         </h2>
-        <div class="order-list-box">
-          <dl>
+        <!-- <div class="order-list-box"> -->
+          <!-- <dl>
             <dd v-for="(course,index) in item.list" :key="index" class="order-content">
               <div class="img-box">
                 <img :src="course.img" width="160" height="90" alt="">
@@ -41,21 +46,21 @@
                 </p>
               </div>
             </dd>
-          </dl>
-          <div class="order-price-box">
-            <template>
+          </dl> -->
+          <!-- <div class="order-price-box"> -->
+            <!-- <template> -->
               <!-- <p class="price-item old">
                 原价 ¥{{ item.oldPrice }}
               </p>
               <p class="price-item">
                 折扣 -¥{{ item.discount }}
               </p> -->
-              <p class="price-item real">
+              <!-- <p class="price-item real">
                 <span>¥ {{ getTotal(item.list) }}</span>
-              </p>
-            </template>         
-          </div>
-          <div class="order-status-box">
+              </p> -->
+            <!-- </template>          -->
+          <!-- </div> -->
+          <!-- <div class="order-status-box">
             <template v-if="item.status.code==0">
               <p class="order-pay-btn" @click="handlePayClick(item)">
                 立即支付
@@ -72,11 +77,11 @@
                 {{ item.way.text }}
               </p>
             </template>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
       </li>
     </ul>
-    <empty v-else message="暂无相关订单数据"></empty>
+    <empty v-else message="暂无相关任务数据"></empty>
 
     <!-- 分页 -->
     <pagination
@@ -105,7 +110,7 @@ export default {
   created () {
     this.navList = [
       { id: 1, title: '全部', status: ''},
-      { id: 2, title: '未支付', status: 0},
+      { id: 2, title: '未完成', status: 0},
       { id: 3, title: '已完成', status: 1},
       { id: 4, title: '已失效', status: 2}
     ]
@@ -167,18 +172,25 @@ export default {
     handlePayClick (order) {
       this.$router.push(`/cart/pay/${order.code}`)
     },
-    // 获取用户订单列表
+    // 获取用户任务列表
     getOrderListData () {
+      // const params = {
+      //   page: this.page,
+      //   size: this.size,
+      //   status: this.currentStatus
+      // }
+      const userInfo = this.$store.getters.userInfo;
       const params = {
-        page: this.page,
-        size: this.size,
-        status: this.currentStatus
+        userId: userInfo.userId  ,
+        type:this.currentStatus
       }
+      console.log(params)
       getOrderList(params).then(res => {
-        let { code, data, msg } = res
+        console.log(res.data)
+        let { msg, code, page } = res.data
         if (code === ERR_OK) {
-          this.orderList = data.list
-          this.total = data.total
+          this.orderList = page.list
+          this.total = page.totalCount
         } else {
           this.orderList = []
           this.$message.error(msg)
@@ -206,7 +218,7 @@ export default {
   },
   computed:{
     currentStatus () {
-      return this.navList[this.currentIndex].status
+      return this.navList[this.currentIndex].title
     }
   },
   components: {

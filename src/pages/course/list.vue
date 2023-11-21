@@ -9,41 +9,42 @@
         @click="handleFilterClick(item, index)"
       >{{ item.title }}</span>
     </div>
-
-    <!-- 课程列表 -->
+<!-- 课程清单 -->
     <ul v-if="list.length" class="course-list">
-      <li v-for="(item,index) in list" :key="index" class="list-item" @click="handleCourseClick(item)">
-        <div class="img-box">
-          <img :src="item.img" alt="">
-          <div class="tags">
-            <span v-for="(label, index) in item.labels" :key="index" class="tag-item">{{ label }}</span>
-          </div>
-          <div v-if="item.rate" class="rate">
-            {{ item.rate }}%
-          </div>
-        </div>
-        <div class="course-content">
-          <h2 class="title ellipsis">
-            {{ item.title }}
-          </h2>
-          <p>
-            <span class="rank">{{ item.hard.text }}</span>
-            <span class="number"><i class="iconfont">&#xe607;</i>{{ item.persons }}</span>
-          </p>
-          <p class="desc">
-            {{ item.introduction }}
-          </p>
-          <p>
-            <span class="price">免费</span>
-          </p>
-        </div>
-      </li>
-    </ul>
-    <empty v-else message="暂无相关课程数据"></empty>
+  <li v-for="(item, index) in list" :key="index" class="list-item" @click="handleCourseClick(item)">
+    <div class="img-box">
+      <img :src="item.courseImg" alt="">
+      <!-- <div class="tags">
+        <span v-for="(label, index) in item.labels" :key="index" class="tag-item">{{ label }}</span>
+      </div>
+      <div v-if="item.rate" class="rate">
+        {{ item.rate }}%
+      </div> -->
+    </div>
+    <div class="course-content">
+      <h2 class="title ellipsis">
+        {{ item.courseName }}
+      </h2>
+      <p>
+        <span class="time">{{ item.creationDate.substring(0,10)+'&nbsp;&nbsp;' }}</span>
+        <span class="author"><i class="iconfont">&#xe607;</i>{{ ' 创建者：'+item.username }}</span>
+        <br>
+        <span class="type">{{ '分类：'+item.category }}</span>
+        <span class="type">{{ '&nbsp;&nbsp;难度：'+item.courseLevel }}</span>
+      </p>
+      <p class="desc">
+        {{ item.introduction }}
+      </p>
+    </div>
+  </li>
+</ul>
+<empty v-else message="暂无相关课程数据哦"></empty>
+
   </div>
 </template>
 <script>
 import Empty from 'components/empty/empty.vue'
+import { configureWebpack } from '../../../vue.config'
 export default {
   props: {
     list: {
@@ -57,9 +58,11 @@ export default {
     return {
       isHide: false,
       filterList: [],
+      type: [],
       filterIndex: 0
     }
   },
+
   created () {
     this.filterList = [
       { title: '默认排序', code: '' },
@@ -68,6 +71,8 @@ export default {
     ]
   },
   methods: {
+
+
     // 排序方式点击
     handleFilterClick (item, index) {
       this.filterIndex = index
@@ -75,7 +80,7 @@ export default {
     },
     // 课程点击事件
     handleCourseClick (lesson) {
-      this.$router.push({ path: `/course/${lesson.id}` })
+      this.$router.push({ path: `/course/courses/info/${lesson.courseId}` })
     }
   },
   components: {

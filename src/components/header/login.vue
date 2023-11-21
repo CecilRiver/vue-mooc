@@ -1,26 +1,26 @@
 <template>
   <ul class="login-area">
-    <li class="item invite">
+    <!-- <li class="item invite">
       <router-link to="/">
         <img src="https://www.imooc.com/static/img/index/redPacket.png" width="14" height="16" alt="">
-        <span class="login-text">邀请有奖</span>
+        <span class="login-text"></span>
       </router-link>
-    </li>
+    </li> -->
     <li class="item download">
       <a href="javascript:;">
-        <span class="login-text">下载APP</span>
+        <span class="login-text"></span>
       </a>
     </li>
     <li class="item cart" @mouseenter="showMiniCart = true" @mouseleave="handleCarItemtMouseLeave">
       <a href="javascript:;">
-        <i class="iconfont">&#xe63b;</i>
-        <span class="login-text">购物车</span>
+        <!-- <i class="iconfont">&#xe63b;</i> -->
+        <span class="login-text">消息提醒</span>
         <div class="mini-chart-container" @mouseenter="handleCartMouseEnter" @mouseleave="showMiniCart = false">
           <mini-cart v-if="showMiniCart" :list="cartList" @close="showMiniCart=false" />
         </div>
       </a>
     </li>
-    <template v-if="userInfo && userInfo.id">
+    <template v-if="userInfo && userInfo.userId">
       <li class="item bell">
         <router-link to="/notice">
           <mooc-badge :max="99" :is-dot="isDot">
@@ -30,53 +30,62 @@
       </li>
       <li class="item userinfo" @mouseenter="showUserInfo = true" @mouseleave="showUserInfo = false">
         <div class="img-box">
-          <img :src="userInfo.avatar" alt="">
+          <img :src="userInfo.profilePicture" alt="">
         </div>
         <div v-show="showUserInfo" class="userinfo-wrapper">
           <div class="userinfo-message-wrapper">
-            <img :src="userInfo.avatar" alt="">
+            <img :src="userInfo.profilePicture" alt="">
             <div class="userinfo-message">
               <p class="name ellipsis">
-                {{ userInfo.nickname }}
+                {{ userInfo.username }}
               </p>
               <p class="number">
-                <span class="number-item">经验 <b>{{ userInfo.exp }}</b></span>
-                <span class="number-item">积分 <b>{{ userInfo.integral }}</b></span>
+                <span class="number-item" style="display: block;">邮箱: <br><b>{{ userInfo.email }}</b></span>
+                <span class="number-item" style="display: block;">个性签名: <br><b>{{ userInfo.intro }}</b></span>
+                <span class="number-item" style="display: block;">上次登录时间: <br><b>{{ userInfo.lastLogin.slice(0, 19) }}</b></span>
               </p>
             </div>
           </div>
           <div class="fast-nav" @click.stop="showUserInfo = false">
-            <router-link to="/user/course">
+            <router-link v-if="this.userInfo.roleId ===2" to="/user/course">
               <div class="fast-nav-item">
                 <i class="iconfont">&#xe60e;</i>
                 我的课程
               </div>
             </router-link>
+
+            <router-link v-else-if="this.userInfo.roleId === 1" to ="/teacher/course">
+              <div class="fast-nav-item">
+                <i class="iconfont">&#xe60e;</i>
+                我的课程
+              </div>
+            </router-link>
+
             <router-link to="/order">
               <div class="fast-nav-item">
                 <i class="iconfont">&#xe611;</i>
-                订单中心
+                任务中心
               </div>
             </router-link>
             <router-link to="/integral">
               <div class="fast-nav-item">
                 <i class="iconfont">&#xe61b;</i>
-                积分商城
+                个人积分
               </div>
             </router-link>
             <router-link to="/user">
               <div class="fast-nav-item">
                 <i class="iconfont">&#xe680;</i>
-                个人设置
+                个人中心
               </div>
             </router-link>
           </div>
-          <div v-if="userInfo.lastCourse" class="course-history">
+          <!-- <div v-if="userInfo.lastCourse" class="course-history">
             <i class="iconfont">&#xe62f;</i>
             <span class="course-name ellipsis">{{ userInfo.lastCourse && userInfo.lastCourse.name }}</span>
             <span class="course-chapter ellipsis">{{ userInfo.lastCourse && userInfo.lastCourse.chapter }}</span>
             <span class="course-btn" @click="handleHistoryClick">继续</span>
-          </div>
+          </div> -->
           <p class="exit-btn">
             <span @click="handleUserLogout">安全退出</span>
           </p>
@@ -103,18 +112,20 @@ export default {
     }
   },
   mounted () {
-    if (this.userInfo.id) {
-      this.getNotReadNoticeData()
+    console.log(this.userInfo)
+    if (this.userInfo.userId) {
+      this.isDot = true
+      //this.getNotReadNoticeData()
     }
   },
   methods: {
-    // 购物车：项鼠标移出
+    // 鼠标移出
     handleCarItemtMouseLeave () {
       this.timer = setTimeout(() => {
         this.showMiniCart = false
       }, 150)
     },
-    // 购物车：鼠标移入
+    // 鼠标移入
     handleCartMouseEnter () {
       clearTimeout(this.timer)
     },
@@ -145,16 +156,17 @@ export default {
     },
     // 获取未读消息数据
     getNotReadNoticeData () {
-      getNotReadNotice().then(res => {
-        const { code, data } = res
-        if (code === ERR_OK && data === true) {
-          this.isDot = true
-        } else {
-          this.isDot = false
-        }
-      }).catch(() => {
-        this.isDot = false
-      })
+      this.isDot = true
+      // getNotReadNotice().then(res => {
+      //   const { code, data } = res
+      //   if (code === ERR_OK && data === true) {
+      //     this.isDot = true
+      //   } else {
+      //     this.isDot = false
+      //   }
+      // }).catch(() => {
+      //   this.isDot = false
+      // })
     },
     // vuex
     ...mapMutations('login', {
@@ -173,6 +185,9 @@ export default {
   components: {
     MiniCart: () => import('components/cart/cart.vue')
   },
+  created () {
+			console.log(this.userInfo[0])
+	},
   beforeDestroy () {
     clearTimeout(this.timer)
   }

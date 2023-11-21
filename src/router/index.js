@@ -15,12 +15,16 @@ const QuestionIndex = () => import('pages/question/index.vue') // 猿问路由
 const ArticleIndex = () => import('pages/article/index.vue') // 手记路由
 const UserCenter = () => import('pages/user/index.vue') // 个人中心路由
 const UserCourse = () => import('pages/user-course/index.vue') // 我的课程路由
-const OrderIndex = () => import('pages/order/index.vue') // 订单中心路由
+const OrderIndex = () => import('pages/order/index.vue') // 任务中心路由
 const NoticeIndex = () => import('pages/notice/index.vue') // 消息中心路由
 const CartIndex = () => import('pages/cart/cart.vue') // 购物车路由
 const CartConfirm = () => import('pages/cart/confirm.vue') // 购物车确认路由
 const CartPay = () => import('pages/cart/pay.vue') // 购物车支付路由
-const IntegralIndex = () => import('pages/integral/index.vue') // 积分商场路由
+const IntegralIndex = () => import('pages/integral/index.vue') // 个人积分路由
+const TeacherCourse = () => import('pages/teacher-course/index.vue')//教师的课程路由
+const UserWorkIndex = () => import('pages/user-work/index.vue')
+const TeacherWorkIndex = () => import('pages/teacher-work/index.vue')
+const TaskDetails = () => import('pages/order/TaskDetails.vue')//任务详情界面
 
 const routes = [
   {
@@ -31,7 +35,8 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component:Home 
+    //component:Home 
+    component:CourseIndex
   },
   {
     path: '/user',
@@ -50,6 +55,14 @@ const routes = [
     }
   },
   {
+    path: '/teacher/course',
+    name: 'TeacherCourse',
+    component: TeacherCourse,
+    meta: {
+      requireAuth: true
+    }
+  },
+  {
     path: '/order',
     name: 'OrderIndex',
     component:OrderIndex,
@@ -63,9 +76,10 @@ const routes = [
     component: CourseIndex,
   },
   {
-    path: '/course/:id',
+    path: '/course/courses/info/:courseId',
     name: 'CourseDetail',
-    component: CourseDetail
+    component: CourseDetail,
+    props: true
   },
   {
     path: '/lesson',
@@ -128,6 +142,27 @@ const routes = [
     path: '/article',
     name: 'ArticleIndex',
     component:ArticleIndex
+  },{
+    path: '/userwork/:assignmentId',
+    name: 'userwork',
+    component:UserWorkIndex,
+    props: true
+  },
+  {
+    path: '/teacherwork/:courseId',
+    name: 'teacherwork',
+    component:TeacherWorkIndex,
+    props: true
+    
+  },
+  {
+    path: '/taskDetails/:id',
+    name: 'TaskDetails',
+    component:TaskDetails,
+    props: true,
+    meta: {
+      requireAuth: true
+    }
   },
   {
     path: '/integral',
@@ -149,7 +184,7 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   let userinfo = getUserInfo()
   if (to.meta.requireAuth) {
-    if (userinfo.id) {
+    if (userinfo.userId) {
       next()
     } else{
       store.commit('login/SET_LOGIN_ACTION', 'login')
@@ -159,6 +194,10 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+
+
+
+
 })
 
 

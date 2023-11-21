@@ -3,13 +3,17 @@ import store from '../store/index.js'
 import components from '../register.js'
 const Message = components.Message
 const service = axios.create({
-  timeout: 10000,
-  withCredentials: true
+  timeout: 50000,
+	headers: {
+		'Content-Type': "application/json; charset=utf-8"
+	},
+  
 })
 
 // 请求拦截
 service.interceptors.request.use(
   config => {
+    config.headers['Authorization'] = localStorage.getItem("token")
     return config
   },
   error => {
@@ -33,7 +37,7 @@ service.interceptors.response.use(
         msg: data.msg
       })
     } else {
-      return Promise.resolve(data)
+      return Promise.resolve(response)
     }
   },
   error => {

@@ -1,22 +1,47 @@
 import axios from 'utils/axios.js'
-
+// 设置axios的baseURL
+axios.defaults.baseURL = 'http://localhost:88/courese';
+axios.defaults.withCredentials = false;// Cookie跨域
 // 课程导航
 export function getLessonNav () {
-  return axios.get('/api/label/list')
+    // 设置axios的baseURL
+axios.defaults.baseURL = 'http://localhost:88/courese';
+axios.defaults.withCredentials = false;// Cookie跨域
+  return axios.get('/course/categories/list')
 }
 
 // 课程列表
 export function getLessonList (params) {
-  return axios.get('/api/lesson/list', {
+  // 设置axios的baseURL
+axios.defaults.baseURL = 'http://localhost:88/courese';
+axios.defaults.withCredentials = false;// Cookie跨域
+  return axios.get('/course/courses/list', {
     params
   })
 }
 
-// 课程详情
-export function getLessonDetail (params) {
-  return axios.get('/api/lesson/info', {
+//课程限制查询
+export function getLessionLimit(params){
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;// Cookie跨域
+  return axios.get('/course/courses/limitList', {
     params
   })
+}
+
+
+
+// 课程详情
+export function getLessonDetail(params) {
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;// Cookie跨域
+  return axios.get(`/course/courses/info/${params}`);
+  
+}
+
+// 类别详情
+export function getLessionType(params) {
+  return axios.get(`/course/categories/info/${params.id}`);
 }
 
 // 课程目录

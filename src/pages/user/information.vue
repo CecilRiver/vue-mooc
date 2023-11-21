@@ -14,7 +14,7 @@
         </div>
         <div class="info-content">
           <template v-if="item.type == '性别'">
-            {{ item.value == 'male' ? '男' : '女' }}
+            {{ item.value == '男' ? '男' : '女' }}
           </template>
           <template v-else>
             {{ item.value?item.value:'未设置' }}
@@ -26,14 +26,11 @@
     <!-- 编辑个人信息弹窗 -->
     <mooc-dialog title="编辑个人信息" :visible.sync="dialogVisible" width="600px">
       <el-form ref="editForm" :model="editForm" label-width="80px" label-position="rigth">
-        <el-form-item label="昵称">
+        <!-- <el-form-item label="昵称">
           <el-input v-model="editForm.nickname" placeholder="请输入昵称"></el-input>
-        </el-form-item>
-        <el-form-item label="职业">
-          <el-input v-model="editForm.job" placeholder="请输入职业"></el-input>
-        </el-form-item>
-        <el-form-item label="城市">
-          <el-input v-model="editForm.city" placeholder="请输入城市"></el-input>
+        </el-form-item> -->
+        <el-form-item label="邮箱">
+          <el-input v-model="editForm.email" placeholder="请输入邮箱"></el-input>
         </el-form-item>
         <el-form-item label="性别">
           <el-radio-group v-model="editForm.sex">
@@ -42,7 +39,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="个性签名">
-          <el-input v-model="editForm.signature" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入个性签名"></el-input>
+          <el-input v-model="editForm.intro" type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="请输入个性签名"></el-input>
         </el-form-item>
       </el-form>
       <template slot="footer">
@@ -68,7 +65,7 @@ export default {
       information: [],
       editForm: {
         nickname: '',
-        job: '',
+        email: '',
         city: '',
         sex: '',
         signature: ''
@@ -77,11 +74,11 @@ export default {
   },
   created () {
     this.information = [
-      { id: 1, type: '昵称', value: this.userinfo.nickname },
-      { id: 2, type: '职位', value: this.userinfo.job },
-      { id: 3, type: '城市', value: this.userinfo.city },
-      { id: 4, type: '性别', value: this.userinfo.sex },
-      { id: 5, type: '个性签名', value: this.userinfo.signature }
+      { id: 1, type: '用户名', value: this.userinfo[0].username },
+      { id: 2, type: '邮箱', value: this.userinfo[0].email },
+      { id: 3, type: '性别', value: this.userinfo[0].sex },
+      { id: 4, type: '个性签名', value: this.userinfo[0].intro }
+      // { id: 5, type: '城市', value: this.userinfo.city },
     ]
   },
   methods: {
@@ -89,11 +86,11 @@ export default {
     handleEditClick () {
       this.dialogVisible = true
       this.editForm = {
-        nickname: this.userinfo.nickname,
-        job: this.userinfo.job,
-        city: this.userinfo.city,
-        sex: this.userinfo.sex,
-        signature: this.userinfo.signature
+        username: this.userinfo[0].username,
+        email: this.userinfo[0].email,
+        // city: this.userinfo.city,
+        sex: this.userinfo[0].sex,
+        intro: this.userinfo[0].intro
       }
       this.$nextTick(() => {
         this.$refs.editForm.resetFields()
@@ -122,11 +119,12 @@ export default {
     userinfo: {
       handler () {
         this.information = [
-          { id: 1, type: '昵称', value: this.userinfo.nickname },
-          { id: 2, type: '职位', value: this.userinfo.job },
-          { id: 3, type: '城市', value: this.userinfo.city },
-          { id: 4, type: '性别', value: this.userinfo.sex },
-          { id: 5, type: '个性签名', value: this.userinfo.signature }
+          { id: 1, type: '用户名', value: this.userinfo[0].username },
+          { id: 2, type: '邮箱', value: this.userinfo[0].email },
+          { id: 3, type: '性别', value: this.userinfo[0].sex },
+          { id: 4, type: '个性签名', value: this.userinfo[0].intro }
+          // { id: 3, type: '城市', value: this.userinfo.city },
+
         ]
       },
       deep: true

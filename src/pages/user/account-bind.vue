@@ -1,8 +1,8 @@
 <template>
   <div class="account-bind">
     <p ref="loginRecord" class="last-login-record">
-      <span>上次登录时间：{{ userinfo.lastLoginTime }}</span>
-      <span>地点：{{ userinfo.lastLoginCity }}</span>
+      <span>上次登录时间：{{ userinfo[0].lastLogin }}</span>
+      <span>地点：暂无信息{{ userinfo.lastLoginCity }}</span>
       <span class="record-btn" @click="handleRecordClick">查看最近操作记录</span>
       <i class="iconfont" @click="handleCloseRecord">&#xe619;</i>
     </p>
@@ -21,7 +21,7 @@
             <span class="bind-type">邮箱</span>
             {{ userinfo.email }}
           </p>
-          <p class="bind-subtitle">可用邮箱加密码登录慕课网，可用邮箱找回密码</p>
+          <p class="bind-subtitle">可用邮箱加密码登录网站，可用邮箱找回密码</p>
         </div>
       </dd>
       <dd class="bind-item">
@@ -31,7 +31,7 @@
             <span class="bind-type">手机</span>
             {{ userinfo.phone }}
           </p>
-          <p class="bind-subtitle">可用手机号加密码登录慕课网，可通过手机号找回密码</p>
+          <p class="bind-subtitle">可用手机号加密码登录网站，可通过手机号找回密码</p>
         </div>
       </dd>
       <dd class="bind-item">
@@ -50,7 +50,7 @@
             <span class="bind-type">QQ</span>
             {{ userinfo.qq }}
           </p>
-          <p class="bind-subtitle">可用第三方QQ账号快速登录慕课网</p>
+          <p class="bind-subtitle">可用第三方QQ账号快速登录</p>
         </div>
       </dd>
       <dd class="bind-item">
@@ -60,7 +60,7 @@
             <span class="bind-type">微信</span>
             {{ userinfo.wechat }}
           </p>
-          <p class="bind-subtitle">可用第三方微信账号快速登录慕课网</p>
+          <p class="bind-subtitle">可用第三方微信账号快速登录</p>
         </div>
       </dd>
     </dl>

@@ -1,14 +1,53 @@
 import axios from 'utils/axios.js'
+let token = localStorage.getItem("token")
+
+// 设置axios的baseURL
+axios.defaults.baseURL = 'http://localhost:88/courese';
+axios.defaults.withCredentials = false;// Cookie跨域
+
+import Qs from 'qs'
+
+export function getUserName(params){
+  return axios.get(`/user/users/info/${params}`);
+}
+
+
 
 // 用户登录
 export function userLogin (data) {
-  return axios.post('/api/user/login', data)
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;// Cookie跨域
+  return axios.post('/auth/login?'+ Qs.stringify(data), {
+    headers: {
+      Authorization: localStorage.getItem("token")
+    }
+  })
 }
 
-// 用户注册接口
-export function userRegister (data) {
-  return axios.post('/api/user/register', data)
+export function getCaptcha(){
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;// Cookie跨域
+
+  return axios.get('/auth/captcha', {
+    headers: {
+      Authorization: localStorage.getItem("token")
+    }
+  })
 }
+
+//用户注册
+export function userRegister(data){
+  axios.defaults.baseURL = 'http://127.0.0.1:10000/';
+  axios.defaults.withCredentials = false;// Cookie跨域
+
+  return axios.post('/user/users/register',Qs.stringify(data))
+}
+
+
+// 用户注册接口
+// export function userRegister (data) {
+//   return axios.post('/api/user/register', data)
+// }
 
 // 获取用户详细信息接口
 export function getUserInfo () {
@@ -34,7 +73,26 @@ export function updateUserInfo (data) {
 
 // 获取用户课程信息接口
 export function getUserCourse (params) {
-  return axios.get('/api/user/course/list', {
-    params
-  })
+  // 设置axios的baseURL
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;// Cookie跨域
+  
+  return axios.post('/course/coursesubscriptions/userCourse', params, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
+}
+
+//获取老师课程信息接口
+export function getTeacherCourse (params) {
+  // 设置axios的baseURL
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;// Cookie跨域
+  
+  return axios.post('/course/courses/teacherCourse', params, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }

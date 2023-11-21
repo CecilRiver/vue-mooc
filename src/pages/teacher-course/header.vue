@@ -3,14 +3,14 @@
     <div class="m-center">
       <div class="left">
         <div class="img-box">
-          <img :src="userInfo[0].profilePicture" alt="">
+          <img :src="userInfo.profilePicture" alt="">
         </div>
         <div class="user-info">
           <p class="name">
-            {{ userInfo[0].username }}
+            {{ userInfo.username }}
           </p>
           <p class="other">
-            <span>{{ userInfo[0].sex === '男' ? '男' : '女' }}</span>
+            <span>{{ userInfo.sex === '男' ? '男' : '女' }}</span>
             <!-- <span>{{ userInfo.job }}</span> -->
           </p>
         </div>

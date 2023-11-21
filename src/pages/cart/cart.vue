@@ -2,7 +2,7 @@
   <div class="cart">
     <!-- 头部 -->
     <cart-header>
-      <span class="cart-name">我的购物车</span>
+      <span class="cart-name">我的课程</span>
       <span class="number">共{{ cartList.length }}门，已选{{ checkNumber }}门</span>
       <router-link class="history-order" to="/order">我的订单历史</router-link>
     </cart-header>

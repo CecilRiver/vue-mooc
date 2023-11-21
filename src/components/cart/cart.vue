@@ -3,7 +3,7 @@
     <!-- 列表 -->
     <dl>
       <dt class="title">
-        我的购物车
+        消息提醒
         <span class="total">共加入{{ cartList.length || 0 }}门课程</span>
       </dt>
       <el-scrollbar>
@@ -24,22 +24,22 @@
           </div>
         </div>
         <div v-else class="empty-box">
-          <span class="iconfont">&#xe63b;</span>
+          <!-- <span class="iconfont">&#xe63b;</span> -->
           <h2 class="empty-title">
-            购物车里空空如也
+            暂无消息提醒
           </h2>
-          <p class="empty-desc">
+          <!-- <p class="empty-desc">
             快去选购你中意的课程
           </p>
-          <router-link class="empty-link" tag="p" to="/lesson">实战课程</router-link>
+          <router-link class="empty-link" tag="p" to="/lesson">实战课程</router-link> -->
         </div>
       </el-scrollbar>
     </dl>
 
     <!-- 底部 -->
     <div class="cart-bottom">
-      <router-link class="text" to="/order">我的订单中心</router-link>
-      <router-link class="account-btn" to="/cart">去购物车</router-link>
+      <!-- <router-link class="text" to="/order">我的订单中心</router-link> -->
+      <router-link class="account-btn" to="/cart">我的个人中心</router-link>
     </div>
   </div>
 </template>
@@ -183,11 +183,14 @@ export default {
       padding: 16px 12px;
       color: #93999f;
       font-size: 12px;
+
       .text
         &:hover
           color: #f01414;
       .account-btn
         float: right;
+        position:relative;
+        top: -25px;
         padding: 8px 26px;
         border-radius: 24px;
         background-color: #f01414;

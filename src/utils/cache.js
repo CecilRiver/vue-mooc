@@ -1,6 +1,7 @@
 import storage from 'good-storage'
 const user_info_prefix = 'vue_mooc_user'
 const cart_check_prefix = 'vue_mooc-cart'
+const set_token = 'vue_mooc_token'
 
 // 用户信息模块
 export function setUserInfo (userinfo) {

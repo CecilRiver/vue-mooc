@@ -1,7 +1,7 @@
 <template>
   <div class="search-wrapper">
-    <input type="text" placeholder="搜索感兴趣的内容" @focus="isFocus=true" @blur="isFocus=false">
-    <i class="iconfont">&#xe63c;</i>
+    <input type="text" placeholder="搜索感兴趣的内容" v-model="searchKeyword" @focus="isFocus=true" @blur="isFocus=false" @keydown.enter="searchCourses">
+    <i class="iconfont" @click="searchCourses">&#xe63c;</i>
     <ul v-if="isFocus" class="search-result">
       <li v-for="(item,index) in result" :key="index" class="result-item">
         {{ item.value }}
@@ -16,13 +16,37 @@ export default {
   data () {
     return {
       isFocus: false,
-      result: []
+      result: [],
+      searchKeyword: "",//用于存储搜索关键字
     }
   },
   mounted () {
-    this.getSearchHistoryList()
+   // this.getSearchHistoryList()
   },
   methods: {
+
+    //获取搜索结果
+    searchCourses(){
+      //接口未完成
+      //若搜索关键词为空
+      if(this.searchKeyword === ""){
+        this.result = [];
+        console.log("是空的")
+        return;
+      }else{
+        console.log(this.searchKeyword)
+        //触发自定义事件，将搜索关键字传递给父组件
+        this.$emit('searchEvent',this.searchKeyword);
+        //清空关键字
+        this.searchKeyword = "";
+        return;
+      }
+
+      
+    },
+
+
+
     // 获取搜索热词
     getSearchHistoryList () {
       getSearchHistory().then(res => {
@@ -35,7 +59,7 @@ export default {
         }
       }).catch(() => {
         this.result = []
-        this.$message.error('接口异常')
+        this.$message.error('接口异常-search')
       })
     }
   }

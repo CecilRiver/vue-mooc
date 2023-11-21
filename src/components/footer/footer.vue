@@ -13,9 +13,9 @@
         </ul>
       </div>
       <div class="copyright">
-        <p>© {{ year }} imooc.com  京ICP备 12003892号-11  北京奥鹏文化传媒有限公司</p>
+        <p>© {{ year }} 尊嘟假嘟</p>
       </div>
-      <div class="share">
+      <!-- <div class="share">
         <div class="share-item wechart">
           <span class="share-img" />
           <p>官方微信</p>
@@ -25,7 +25,7 @@
           <span class="share-img" />
           <p>官方微博</p>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>

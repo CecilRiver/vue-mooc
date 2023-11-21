@@ -24,13 +24,13 @@ module.exports = {
     port: 3400,
     proxy: {
       '/api': {
-        target: 'http://localhost:4300',
+        target: 'http://localhost:7000',
         pathRewrite: {
           '/api': ''
         }
       },
       '/mock': {
-        target: 'http://localhost:4300'
+        target: 'http://localhost:7000'
       }
     }
   },

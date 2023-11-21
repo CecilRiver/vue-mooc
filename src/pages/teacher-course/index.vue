@@ -42,7 +42,7 @@ export default {
   created () {
     // 初始化导航数据
     this.navList = [
-      { title: '我的课程', code: 0,  componentName: 'Course', key: 'free' },
+      { title: '我创建的课程', code: 0,  componentName: 'Course', key: 'free' },
       // { title: '猿问', code: 1, componentName: 'Question', key: 'question' },
       // { title: '手记', code: 2, componentName: 'Article', key: 'article' }
     ]

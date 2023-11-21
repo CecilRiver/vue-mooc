@@ -13,14 +13,14 @@
         <span class="login-close iconfont" @click="setShowLogin(false)">&#xe619;</span>
       </div>
       <component :is="componentName" :index="currentTabIndex" />
-      <div v-show="componentName!='qrcode-way'" class="three-login-way">
+      <!-- <div v-show="componentName!='qrcode-way'" class="three-login-way">
         <span class="phone-login">{{ threeTitle }}</span>
         <span class="three-way-item">
           <i class="iconfont weibo">&#xe653;</i>
           <i class="iconfont wechart">&#xe646;</i>
           <i class="iconfont qq">&#xe6a0;</i>
         </span>
-      </div>
+      </div> -->
       <div v-if="currentTabIndex == 0" class="qrcode-way" :style="getQrcodeBackground" @click="handleQrcodeClick" />
     </div>
   </div>

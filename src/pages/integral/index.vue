@@ -3,10 +3,10 @@
     <!-- 导航部分 -->
     <div class="integral-header">
       <h3>
-        积分商场
+        个人积分
         <span class="integral-number">当前可用积分：{{ integral }}</span>
       </h3>
-      <dl class="integral-nav">
+      <!-- <dl class="integral-nav">
         <dt>商品分类：</dt>
         <dd
           v-for="(item, index) in navList"
@@ -24,7 +24,7 @@
             @change="handleSwitchChange"
           />显示我能兑换的
         </dt>
-      </dl>
+      </dl> -->
     </div>
 
     <!-- 列表部分 -->
@@ -40,7 +40,7 @@
           <p class="integral-item-number">{{ item.integral }}积分</p>
         </li>
       </ul>
-      <empty v-else message="暂无相关积分商品数据"></empty>
+      <empty v-else message="暂无相关积分数据"></empty>
     </div>
 
 

@@ -57,7 +57,7 @@ export default {
     }
   },
   mounted () {
-    this.tags = ['Java入门', '前端入门']
+    this.tags = ['商务英语', '大学物理']
     this.getHotData()
   },
   methods: {

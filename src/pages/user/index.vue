@@ -3,13 +3,13 @@
     <div class="user-center-container">
       <div class="user-left-nav">
         <div class="user-avatar">
-          <img :src="userInfo.avatar" alt>
+          <img :src="userInfo.profilePicture" alt>
         </div>
         <p class="user-name ellipsis">
-          {{ userInfo.nickname }}
+          {{ userInfo.username }}
         </p>
         <p class="user-id">
-          ID: 583466557899
+          ID: {{ userInfo.userId }}
         </p>
         <dl class="user-nav">
           <dt class="nav-title">
@@ -60,7 +60,7 @@ export default {
       { id: 2, title: "个人信息", componentName: "information" },
       { id: 3, title: "操作记录", componentName: "log" },
       { id: 4, title: "实名认证", componentName: "authenticate" },
-      { id: 5, title: "收件地址", componentName: "m-address" }
+      // { id: 5, title: "收件地址", componentName: "m-address" }
     ];
   },
   methods: {

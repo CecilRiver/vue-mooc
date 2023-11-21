@@ -23,7 +23,7 @@
 <script>
 import MHeader from 'components/header/index.vue'
 import MFooter from 'components/footer/footer.vue'
-import MSidebar from 'components/sidebar/sidebar.vue'
+//import MSidebar from 'components/sidebar/sidebar.vue'
 import { mapGetters, mapMutations } from 'vuex'
 import { scrollMixin } from 'assets/js/mixin.js'
 export default {
@@ -49,7 +49,7 @@ export default {
   components: {
     MHeader,
     MFooter,
-    MSidebar,
+   // MSidebar,
     Login: () => import('components/login/index.vue')
   }
 }

@@ -22,18 +22,22 @@ export default {
     }
   },
   mounted () {
-    this.getCourseDetailData()
+    //this.getCourseDetailData()
+  },
+  props: {
+            courseId: {
+                type: String,
+                required: true
+            }
   },
   methods: {
     // 获取课程详情
-    getCourseDetailData () {
-      const params = {
-        id: this.$route.params.id
-      }
-      getLessonDetail(params).then(res => {
-        let { code, data, msg } = res
-        if (code === ERR_OK) {
-          this.courseDetail = data
+    getCourseDetailData (courseId) {
+      console.log(courseId)
+      getLessonDetail(courseId).then(res => {
+        let { msg, courses, code } = res.data
+        if (code === 0) {
+          this.courseDetail = courses
         } else {
           this.courseDetail = {}
           this.$message.error(msg)
@@ -47,6 +51,10 @@ export default {
   components: {
     CourseHeader,
     CourseContent
-  }
+  },
+  created() {
+        this.getCourseDetailData(this.courseId);
+        
+  },
 }
 </script>

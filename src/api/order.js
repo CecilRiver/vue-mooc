@@ -1,5 +1,5 @@
 import axios from 'utils/axios.js'
-
+import Qs from 'qs'
 // 分页获取用户充值记录接口
 export function getUserRecharges (params) {
   return axios.get('/api/recharge/list', {
@@ -50,10 +50,16 @@ export function orderPay (data) {
 
 // 订单列表
 export function getOrderList (params) {
-  return axios.get('/api/order/list', {
-    params
-  })
+  axios.defaults.baseURL = 'http://localhost:88/courese';
+  axios.defaults.withCredentials = false;
+  
+  return axios.post('/peerevaluation/peerreviewassignments/userWork', params, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 }
+
 
 // 取消订单
 export function cancelOrder (params) {

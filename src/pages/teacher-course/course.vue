@@ -8,23 +8,27 @@
           :class="{active: currentTabIndex==index}"
           @click="handleTabClick(tab,index)"
         >{{ tab.title }}</span>
+        <mooc-button size="mini" round @click="handleEditClick" style="justify-content: flex-end; ">
+          <i class="iconfont">&#xe600;</i>
+          创建课程
+        </mooc-button>
       </dt>
+      
       <template v-if="lessonList.length">
         <dd v-for="(item,index) in lessonList" :key="index" class="course-item">
           <div class="img-box">
-            <img :src="item.course.courseImg" alt="">
+            <img :src="item.courseImg" alt="">
           </div>
           <div class="course-content">
             <p class="title">
-              {{ item.course.courseName }}
+              {{ item.courseName }}
             </p>
             <p class="learn">
               <!-- <span class="rate">已学{{ item.percent }}%</span> -->
-              <span class="duration">类型：{{item.course.category}}  </span>
-              <span class="duration">老师：{{item.course.username}}  </span>
-              <span class="duration">难度：{{item.course.courseLevel}}  </span>
-              <span class="duration">学时：{{item.course.courseTime}}  </span>
-              <span class="duration">已学时间：  暂无数据  </span>
+              <span class="duration">类型：{{item.category}}  </span>
+              <span class="duration">老师：{{item.username}}  </span>
+              <span class="duration">难度：{{item.courseLevel}}  </span>
+              <span class="duration">学时：{{item.courseTime}}  </span>
               <!-- <span v-if="item.lastChapter" class="chapter">学习至{{ 空数据 }}</span> -->
             </p>
             <p class="other">
@@ -33,10 +37,41 @@
               <span>问答{{ item.questions }}</span>
               <span class="learn-btn">继续学习</span> -->
             </p>
+
+    <!-- 创建课程弹窗 -->
+    <mooc-dialog title="创建课程" :visible.sync="dialogVisible" width="600px">
+      <el-form ref="editForm" :model="editForm" label-width="80px" label-position="rigth">
+        <el-form-item label="课程名称">
+          <el-input v-model="editForm.coursename" placeholder="请输入课程名称"></el-input>
+        </el-form-item>
+        <el-form-item label="课程介绍">
+          <el-input v-model="editForm.description" placeholder="请输入课程介绍"></el-input>
+        </el-form-item>
+        <el-form-item label="课程类别">
+          <el-input v-model="editForm.category" placeholder="请输入课程类别"></el-input>
+        </el-form-item>
+        <el-form-item label="课程图片">
+          <el-input v-model="editForm.img" placeholder="请输入课程图片URL"></el-input>
+        </el-form-item>
+        <el-form-item label="课程难度">
+          <el-input v-model="editForm.level" placeholder="请输入课程难度"></el-input>
+        </el-form-item>
+        <el-form-item label="课程学时">
+          <el-input v-model="editForm.time" placeholder="请输入课程学时"></el-input>
+        </el-form-item>
+
+      </el-form>
+      <template slot="footer">
+        <mooc-button size="small" @click="dialogVisible=false">关闭</mooc-button>
+        <mooc-button size="small" type="primary" :disabled="isLoading" @click="handleSaveClick">保存</mooc-button>
+      </template>
+    </mooc-dialog>
+
           </div>
         </dd>
+
       </template>
-      <empty v-else message="暂无相关课程信息"></empty>
+      <empty v-else message="暂无创建课程信息"></empty>
     </dl>
 
     <!-- 分页 -->
@@ -51,7 +86,7 @@
 <script>
 import Pagination from 'components/pagination/pagination.vue'
 import Empty from 'components/empty/empty.vue'
-import { getUserCourse } from 'api/user.js'
+import { getTeacherCourse } from 'api/user.js'
 import { ERR_OK } from 'api/config.js'
 import { mapGetters } from 'vuex'
 export default {
@@ -60,11 +95,21 @@ export default {
   },
   data () {
     return {
+      isLoading: false,
+      dialogVisible: false,
       page: 1,
       total: 0,
       lessonList: [],
       currentTabIndex: 0,
-      tabList: []
+      tabList: [],
+      editForm: {
+        coursename: '',
+        description: '',
+        category: '',
+        img: '',
+        level: '',
+        time: '',
+      }
     }
   },
   created () {
@@ -79,6 +124,41 @@ export default {
     this.getUserCourseData()
   },
   methods: {
+
+    // 创建课程
+    handleEditClick () {
+      this.dialogVisible = true
+      // this.editForm = {
+      //   username: this.userinfo[0].username,
+      //   email: this.userinfo[0].email,
+      //   // city: this.userinfo.city,
+      //   sex: this.userinfo[0].sex,
+      //   intro: this.userinfo[0].intro
+      // }
+      // this.$nextTick(() => {
+      //   this.$refs.editForm.resetFields()
+      // })
+    },
+
+        // 保存个人信息
+    handleSaveClick () {
+      this.isLoading = true
+      // updateUserInfo(this.editForm).then(res => {
+      //   this.isLoading = false
+      //   const { code, msg } = res
+      //   if (code === ERR_OK) {
+      //     this.dialogVisible = false
+      //     this.$message.success(msg)
+      //     this.$emit('componentClick', 'userinfo')
+      //   } else {
+      //     this.$message.error(msg)
+      //   }
+      // }).catch(() => {
+      //   this.isLoading = false
+      //   this.$message.error('接口异常')
+      // })
+    },
+
     // 选项卡点击事件
     handleTabClick (tab, index) {
       this.currentTabIndex = index
@@ -89,15 +169,15 @@ export default {
       this.page = page
       this.getUserCourseData()
     },
-    // 获取用户课程信息
+    // 获取老师创建的课程信息
     getUserCourseData () {
-      console.log("lllll")
       const userInfo = this.$store.getters.userInfo;
       const params = {
-       userId: userInfo[0].userId
+       userId: userInfo.userId
       }
-      getUserCourse(params).then(res => {
-        let { msg, code, page } = res
+      getTeacherCourse(params).then(res => {
+        console.log(res.data)
+        let { msg, code, page } = res.data
         if (code === ERR_OK) {
           this.lessonList = page.list
           this.total = page.totalCount

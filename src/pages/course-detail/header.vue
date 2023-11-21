@@ -3,7 +3,7 @@
     <div class="header">
       <div class="header-content m-center">
         <p class="breadcrumb-box">
-          <span>课程 \ {{ base.title }}</span>
+          <span>课程 \ {{ base.courseName }}</span>
         </p>
         <p class="share-box">
           <span class="iconfont">&#xe716;</span>
@@ -12,8 +12,19 @@
           <span class="iconfont">&#xe699;</span>
         </p>
         <h2 class="title">
-          {{ base.title }}
+          <strong>{{ base.courseName }}</strong>
         </h2>
+        <h3 class="title" style = "font-size: 18px;">
+          <dd>老师：{{ base.username}}</dd>
+          {{ '课程创建时间：'+base.creationDate }}<br>
+          {{ '课程介绍：'+base.description }}
+        </h3>
+        <dl>       
+              <dd>难度：{{ base.courseLevel }}</dd>
+              <dd>时长：{{ base.courseTime + '学时 ' }}</dd>
+              <dd>学习人数：{{ base.coursePeople +"人" }}</dd>
+              <dd>综合评分：{{ '空数据'  }}</dd>
+            </dl>
         <div class="information">
           <div v-if="base.teacher" class="teacher">
             <img :src="base.teacher.avatar" class="avatar" alt="">
@@ -25,18 +36,13 @@
                 {{ base.teacher.job }}
               </p>
             </div>
-            <dl>
-              <dd>难度：{{ base.hard.text }}</dd>
-              <dd>时长：{{ base.hours || 0 }}小时</dd>
-              <dd>学习人数：{{ base.persons }}</dd>
-              <dd>综合评分：{{ base.score || 100 }}%</dd>
-            </dl>
           </div>
         </div>
       </div>
     </div>
   </div>
 </template>
+
 <script>
 export default {
   props: {
@@ -52,7 +58,7 @@ export default {
 
 <style lang="stylus" scoped>
   .course-detail-header
-    height: 200px;
+    height: 350px;
     background-image: linear-gradient(90deg, #19172D, #645DB7);
     .header
       height: 100%;
